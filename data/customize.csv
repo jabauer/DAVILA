@@ -1,0 +1,75 @@
+#This is a sample customization file for Project Braintree, based on the schema for Project Quincy (also included)
+#It is a pipe ("|") separated CSV file
+#You can either change the information below or replace this file with one of your own making
+
+#If you replace the file, make sure the new file is called "customize.csv" and placed in the data folder, or follow the instructions
+#in README.TXT to use another name/location
+
+#If you create the file as a spreadsheet and then export to PIPE SEPARATED CSV
+#make sure you remove any quotation marks or unnecessary spaces from the csv file, they will confuse the parser!
+
+
+#These lines set the metadata for your diagram, the information will display in the top left corner, in bold
+
+#title|NAME OF DIAGRAM
+title|Project Quincy, Annotated Diagram
+
+#url|LOCATION OF PROJECT
+url|http://projectquincy.rubyforge.org
+
+#creators|PEOPLE INVOLVED
+creators|Lead Developer: Jean Bauer
+
+#This next group of lines allows you to color code your modules and indicate which entity is the central node of that module
+#The central node allows you to choose whether to display all the entities in the module, or just the central entity and module name to save space
+#If you don't want to indicate a central module, make sure there is "|" immediately after the hex color, otherwise the parser will throw an 
+#Array Out of Bounds exception
+#Probably best to limit your diagram to 5 or 6 modules, otherwise it can get confusing
+
+#module|NAME OF MODULE|HEX COLOR|CENTRAL ENTITY OF THAT MODULE
+module|biographical|#5B806B|individuals
+module|postings|#465B73|assignments
+module|footnotes|#342140|validations
+module|organizational|#BFA778|organizations
+module|correspondence|#888888|letters
+module|places|#422E14|locations
+
+#This next line lets you license your diagram under the copyright(or copyleft) of your choice
+#The license will display in the bottom left corner
+
+#license|COPYRIGHT STATEMENT
+license|This work is licensed under the Creative Commons Attribution-Share-Alike 3.0 License
+
+#The following lines assign a module and an annotation to each entity in the database
+#The structure is as follows
+
+#ENTITY NAME(*exactly* as it appears in your schema)|MODULE NAME|BRIEF DESCRIPTION OF ENTITY
+assignment_titles|postings|A list of all the different assignments held by individuals. 
+assignment_types|postings|Groups the possible assignments for ease of searching.
+assignments|postings|Records who held which position, where and for how long.  If you are uncertain on when a person began or left a position, start_certain and end_certain will flag that data for further research.
+bibliographies|footnotes|A list of works, including a bibliographic citation allowing the user to double check all information in the database. 
+citations|footnotes|Gives the location of the data within a given source. 
+continents|places|A list of the five inhabitable continents: North America, South America, Europe, Asia, and Africa.
+empires|places|Groups of states.  For example: England, Scotland, Ireland, and Canada are all in the British Empire or the United States of America is a collection of states (Massachusetts, Pennsylvania, etc.).
+in_empires|places|Allows states to be included in multiple empires over time.
+in_regions|places|Allows locations to be included in multiple regions at once.
+in_states|places|Allows locations to be included in multiple states over time.
+individuals|biographical|Records basic information about a specific person, including a standardized name for authority work and the state they are most associated with.
+letters|correspondence|Metadata about a letter: sender and recipient (individual or group), location to and from, dates (sent, received, archived).  The database does not store text or images of letters.
+locations|places|A single place, whether it is a town, city, or address.  It has a latitude and longitude value for plotting on a map.
+members|organizational|Connects an individual with an organization for a given period of time, while they perform a particular role: President, secretary, congregant, minister, etc.
+occupation_titles|biographical|Lists the roles (or occupations) a person can hold over his or her lifetime.
+occupation_types|biographical|Groups occupation_titles for easier searching.
+occupations|biographical|Records what roles a person held over his or her lifetime, including military ranks, professions, political appointments, marital status, etc.
+org_evolution_types|organizational|Groups org_evolutions.  All org_evolution_types are one-way only.
+org_evolutions|organizational|Records when an organization precedes, succeeds, splits, or merges into new organization.
+organization_types|organizational|Allows organizations to be grouped by type (ex. political, religious, business, etc.)
+organizations|organizational|Records information about a specific institution.
+regions|places|Any grouping of locations that does not fall within standard political boundaries (i.e. states).  Examples include: the Old Southwest, the Mediterranean Basin, the Ohio River Valley, etc.
+relationship_types|biographical|One-way designation from individual_1 to individual_2.  For example, John Adams to John Quincy Adams is a parent relationship type, whereas John Quincy Adams to John Adams is a child relationship.
+relationships|biographical|Joins two individuals in a specific relationship_type for a given period of time.  
+residence_types|biographical|Increased specificity (renting, owning, if the person lived there year round or only part time, etc.)
+residences|biographical|Where people lived over the course of their lives, including where they were born and where they died.
+states|places|The largest continuous unit of local administration.  This could be a country, province, territory, or a state in the American Union.  States can be grouped into Empires.
+users|footnotes|All the registered users in the database.  This table can be expanded to support many authentication strategies.
+validations|footnotes|Validations is a table unlike any other in the database; it does not directly link to any of the records in the database.  Instead, it records the type of entity (model name) and that entity's unique identifier.  This way, the validations table can "link" to as many (or as few) tables in the database as you require.  The validations also table records the user who entered the data, and the source from which the data is validated.  The "supports" field will record whether a given citation supports on contradicts the data in question.
