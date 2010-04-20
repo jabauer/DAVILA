@@ -102,10 +102,10 @@ Common reasons to alter the code
 
 DAVILA has been designed for non Processing users as well as those familiar with the language.  Everything you see in the example applet (or by running the code, unmodified) was parsed from the schema and the CSV file (except for the attribution text in the lower right corner).  However there are some standard customizations which cannot be handled through the CSV file.  
 
-* Changing the size of the display window -- this is handled by the size(height, width) method (see http://processing.org/reference/size_.html for more information).  It is the first method called in setup(), found in DAVILA.pde  
+* Changing the size of the display window -- this is handled by the size(width, height) method (see http://processing.org/reference/size_.html for more information).  It is the first method called in setup(), found in DAVILA.pde  
 	* NOTE: If you change the size and plan to export your sketch as an applet, check the applet to make sure that everything is visible in the window.  The applet export feature in Processing can generate weird results, and depending on the complexity of your schema, some entities may "fall off" the bottom or left side of the sketch.  Play with the applet size until you find something that works.
 
-* Changing the font -- DAVILA ships with the ttf files for two open source fonts Bitstream Vera and Bitstream Vera Bold.  If you want to use another font, you must add the new ttf files to the data folder and change the createFont lines in setup().  If you plan to redistribute your modified version of DAVILA make sure you use fonts that can be redistributed with the code (or revert to the Vera fonts).  
+* Changing the font -- DAVILA ships with the ttf files for two open source fonts, Bitstream Vera and Bitstream Vera Bold.  If you want to use another font, you must add the new ttf files to the data folder and change the createFont lines in setup().  If you plan to redistribute your modified version of DAVILA make sure you use fonts that can be redistributed with the code (or revert to the Vera fonts).  
 
 * Changing the color of the text or arrows -- this is handled by a series of fill() methods throughout the code.  See http://processing.org/reference/fill_.html for more information about this method.
 
