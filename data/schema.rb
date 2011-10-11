@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100212200737) do
+ActiveRecord::Schema.define(:version => 20101102231458) do
 
   create_table "assignment_titles", :force => true do |t|
     t.string   "name"
@@ -340,8 +340,8 @@ ActiveRecord::Schema.define(:version => 20100212200737) do
   end
 
   create_table "validations", :force => true do |t|
-    t.string   "entity_type"
-    t.integer  "entity_key"
+    t.string   "validatable_type"
+    t.integer  "validatable_id"
     t.boolean  "supports"
     t.integer  "user_id"
     t.integer  "citation_id"

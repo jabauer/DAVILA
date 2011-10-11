@@ -1,8 +1,8 @@
-#This is a sample customization file for Project Braintree, based on the schema for Project Quincy (also included)
+#This is a sample customization file for DAVILA, based on the schema for Project Quincy (also included)
 #It is a pipe ("|") separated CSV file
 #You can either change the information below or replace this file with one of your own making
 
-#If you replace the file, make sure the new file is called "customize.csv" and placed in the data folder, or follow the instructions
+#If you replace the file, make sure the new file is called "customize.csv" and placed in the data folder of your Processing sketch, or follow the instructions
 #in README.TXT to use another name/location
 
 #If you create the file as a spreadsheet and then export to PIPE SEPARATED CSV
@@ -72,4 +72,4 @@ residence_types|biographical|Increased specificity (renting, owning, if the pers
 residences|biographical|Where people lived over the course of their lives, including where they were born and where they died.
 states|places|The largest continuous unit of local administration.  This could be a country, province, territory, or a state in the American Union.  States can be grouped into Empires.
 users|footnotes|All the registered users in the database.  This table can be expanded to support many authentication strategies.
-validations|footnotes|Validations is a table unlike any other in the database; it does not directly link to any of the records in the database.  Instead, it records the type of entity (model name) and that entity's unique identifier.  This way, the validations table can "link" to as many (or as few) tables in the database as you require.  The validations also table records the user who entered the data, and the source from which the data is validated.  The "supports" field will record whether a given citation supports on contradicts the data in question.
+validations|footnotes|Validations is a table unlike any other in the database; it does not directly link to any of the records in the database.  Instead, it records the type of validatable entity (model name) and that entity's unique identifier.  This way, the validations table can "link" to as many (or as few) tables in the database as you require.  The validations also table records the user who entered the data, and the source from which the data is validated.  The "supports" field will record whether a given citation supports on contradicts the data in question.
