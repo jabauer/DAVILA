@@ -51,6 +51,7 @@ bibliographies|footnotes|A list of works, including a bibliographic citation all
 citations|footnotes|Gives the location of the data within a given source. 
 continents|places|A list of the five inhabitable continents: North America, South America, Europe, Asia, and Africa.
 empires|places|Groups of states.  For example: England, Scotland, Ireland, and Canada are all in the British Empire or the United States of America is a collection of states (Massachusetts, Pennsylvania, etc.).
+enclosures|correspondence|Links letters that were sent together.  Often letters were forwarded on to another recipient.  In time this will be expanded to include non-letter documents.
 in_empires|places|Allows states to be included in multiple empires over time.
 in_regions|places|Allows locations to be included in multiple regions at once.
 in_states|places|Allows locations to be included in multiple states over time.

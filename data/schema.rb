@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101102231458) do
+ActiveRecord::Schema.define(:version => 20120115030542) do
 
   create_table "assignment_titles", :force => true do |t|
     t.string   "name"
@@ -76,6 +76,17 @@ ActiveRecord::Schema.define(:version => 20101102231458) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "enclosures", :force => true do |t|
+    t.integer  "main_letter_id"
+    t.integer  "enclosed_letter_id"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "enclosures", ["main_letter_id"], :name => "main_letter_id"
+  add_index "enclosures", ["enclosed_letter_id"], :name => "enclosed_letter_id"
 
   create_table "in_empires", :force => true do |t|
     t.integer  "state_id"
@@ -360,6 +371,9 @@ ActiveRecord::Schema.define(:version => 20101102231458) do
   add_foreign_key "assignments", ["location_id"], "locations", ["id"], :name => "assignments_ibfk_3"
 
   add_foreign_key "citations", ["bibliography_id"], "bibliographies", ["id"], :name => "citations_ibfk_1"
+
+  add_foreign_key "enclosures", ["main_letter_id"], "letters", ["id"], :name => "enclosures_ibfk_1"
+  add_foreign_key "enclosures", ["enclosed_letter_id"], "letters", ["id"], :name => "enclosures_ibfk_2"
 
   add_foreign_key "in_empires", ["state_id"], "states", ["id"], :name => "in_empires_ibfk_1"
   add_foreign_key "in_empires", ["empire_id"], "empires", ["id"], :name => "in_empires_ibfk_2"

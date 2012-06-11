@@ -222,7 +222,7 @@ class Entity extends VerletParticle2D {
     textAlign(LEFT, BOTTOM);
     for (int i = 0; i < attributes.size(); i++){
       Attribute a = (Attribute) attributes.get(i);
-      if(a.foreign_key || a.primary_key) {
+      if(a.foreign_key || a.primary_key || a.key_key) {
         textFont(bold);
         fill(unhex(moduleColor));
       } else {

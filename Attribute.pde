@@ -16,11 +16,13 @@ class Attribute {
   String name;
   boolean foreign_key;
   boolean primary_key;
+  boolean key_key;
  
  Attribute(String type, String name) {
    this.type = type;
    this.name = name;
    this.foreign_key = foreign_key;
    this.primary_key = primary_key;
+   this.key_key = key_key;
  } 
 }
