@@ -16,9 +16,13 @@
 /*****
 This method will parse output of a Django manage.py sql command
 For documentation on using this command see:
- https://docs.djangoproject.com/en/dev/ref/django-admin/#sql-appname-appname
+https://docs.djangoproject.com/en/dev/ref/django-admin/#sql-appname-appname
+ 
 You can list all the apps you want displayed and then pipe them to a file
-For example >>python manage.py sql places people organizations > schema.sql
+
+For example 
+>>python manage.py sql places people organizations > schema.sql
+
 IMPORTANT NOTE: make sure you order your applications by dependency.
 If you try to parse a SQL table with a Foreign Key before you have parsed the
 table which that key references, the parser will create a dummy table and you 
