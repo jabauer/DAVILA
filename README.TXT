@@ -7,7 +7,7 @@ DAVILA is an open source relational database schema visualization and annotation
 DAVILA is named after John Adams' 1790 treatise on political philosophy, "Discourses on Davila: a series of papers on political history," an extensive commentary of the Italian historian and diplomat Enrico Caterino Davila's 1630 "Istoria delle guerre civili di Francia."
 
 DAVILA was built with funds and support from NINES (http://nines.org)
-	* In particular Dana Wheeles and Laura Mendel for their encouragement and great design suggestions
+	* In particular Dana Wheeles and Laura Mandell for their encouragement and great design suggestions
 
 Thanks also go to 
 	* Ben Fry and Casey Reas for creating Processing and then sharing it with the rest of us
@@ -15,7 +15,7 @@ Thanks also go to
 	* Daniel Shiffman for great toxiclibs tutorials
 	* PhiLho, Cedric, TfGuy44, and all others on the Processing fora who helped me out
 
-Copyright 2010, Jean Bauer http://www.jeanbauer.com
+Copyright 2012, Jean Bauer http://www.jeanbauer.com
 
 Topics covered:
 	* System Requirements
@@ -70,18 +70,18 @@ Pressing the SPACE KEY (will not work if running as an applet)
 ********************
 Parsing your schema with DAVILA
 
-DAVILA is designed to load and parse the schema file for your database.  Version 0.1 is released with a parser (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).  This parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.  
+DAVILA is designed to load and parse the schema file for your database.  Version 0.2 is released with 2 parsers (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).  The default parser (named parseDjangoSql) can extract the necessary information from a SQL file created by the Django command line "manage.py sql" command.  See inline comments for more information.  The other parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.  
 
-Overtime I hope to increase the parser library until it can handle all Rails schemas and most SQL schema variations.  However, since SQL is a non-orthogonal language (and therefore every developer seems to have her/his favorite way of writing SQL Schemas), I will be relying on the user base to help improve the parser library.
+Overtime I hope to increase the parser library.  However, since SQL is a non-orthogonal language (and therefore every developer seems to have her/his favorite way of writing SQL Schemas), I will be relying on the user base to help improve the parser library.
 
-The Parser.pde file is heavily commented and should be relatively easy to modify for a different Rails/SQL schema.  If you create a new parser, PLEASE contribute it back to the project and let me know how you want to be credited in the code comments and larger documentation.  
+The Parser.pde file is heavily commented and should be relatively easy to modify for a different SQL schema.  If you create a new parser, PLEASE contribute it back to the project and let me know how you want to be credited in the code comments and larger documentation.  
 
 Processing makes use of the Java regex library.  
 
-If your schema is called something other than schema.rb (or is located outside of the data folder) you will need to alter the code splits the file into an Array.
+If your schema is called something other than schema.sql (or is located outside of the data folder) you will need to alter the code splits the file into an Array.
 	* Inside the setup() method there is line that reads
-		schema = loadStrings("schema.rb");
-	* Replace the "schema.rb" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
+		schema = loadStrings("schema.sql");
+	* Replace the "schema.sql" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
 	* you can also use a URL to pull the schema from a server -- just remember that you need to update the CSV file every time you add a new Entity to the database, make sure you include the full path "http://yourschemafile.sql"
 
 ********************
@@ -96,6 +96,8 @@ The CSV File has been heavily annotated for use as a template.  You can either r
 		custom = loadStrings("customize.csv");
 	* Replace the "customize.csv" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
 	* you can also use a URL to pull the csv file from a server, make sure you include the full path "http://yourcustomizationfile.csv"
+
+You do need to have a line for every table in your schema.  If you do not, the program will throw a "Java Null Pointer" error at you and reference the colorCode function in the Entity.pde file.
 
 ********************
 Common reasons to alter the code
@@ -126,4 +128,4 @@ Known Issues
 
 * Self joins represented with only 1 arrow -- toxiclibs only allows one spring to connect two entities, so that means one arrow between a self-join and its related table.  Any and all suggestions welcome.
 
-If your problem is not addressed above, first check out the documentation and forums on http://processing.org to make sure this is not Processing (or toxiclibs) issue rather than a DAVILA issue.
+If your problem is not addressed above, first check out the documentation and forums on http://processing.org to make sure this is not a Processing (or toxiclibs) issue rather than a DAVILA issue.

@@ -60,8 +60,8 @@ void setup( ) {
   bold = createFont("VeraBd.ttf", 12);
 
   //choose your schema file
-  //If you called it schema.rb and placed it in the data folder there is nothing to change
-  schema = loadStrings("schema.rb");
+  //If you called it schema.sql and placed it in the data folder there is nothing to change
+  schema = loadStrings("schema.sql");
   //chose your customization file 
   //If you called it customize.csv and placed it in the data folder there is nothing to change
   custom = loadStrings("customize.csv");
@@ -82,7 +82,7 @@ void setup( ) {
   physics.setWorldBounds(Rect.fromCenterExtent(center, extent));
 
   //code located in Parser.pde
-  parseRails2fkcSchema(schema);
+  parseDjangoSql(schema);
 }
 
 //This method actually draws the sketch

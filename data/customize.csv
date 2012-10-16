@@ -47,9 +47,12 @@ license|This work is licensed under the Creative Commons Attribution-Share-Alike
 assignment_titles|postings|A list of all the different assignments held by individuals. 
 assignment_types|postings|Groups the possible assignments for ease of searching.
 assignments|postings|Records who held which position, where and for how long.  If you are uncertain on when a person began or left a position, start_certain and end_certain will flag that data for further research.
+auth_user|footnotes|
 bibliographies|footnotes|A list of works, including a bibliographic citation allowing the user to double check all information in the database. 
 citations|footnotes|Gives the location of the data within a given source. 
 continents|places|A list of the five inhabitable continents: North America, South America, Europe, Asia, and Africa.
+coordinate_systems|places|List of projections used by Lat, Long values.
+django_content_type|footnotes|
 empires|places|Groups of states.  For example: England, Scotland, Ireland, and Canada are all in the British Empire or the United States of America is a collection of states (Massachusetts, Pennsylvania, etc.).
 enclosures|correspondence|Links letters that were sent together.  Often letters were forwarded on to another recipient.  In time this will be expanded to include non-letter documents.
 in_empires|places|Allows states to be included in multiple empires over time.
@@ -71,6 +74,8 @@ relationship_types|biographical|One-way designation from individual_1 to individ
 relationships|biographical|Joins two individuals in a specific relationship_type for a given period of time.  
 residence_types|biographical|Increased specificity (renting, owning, if the person lived there year round or only part time, etc.)
 residences|biographical|Where people lived over the course of their lives, including where they were born and where they died.
+role_titles|organizational|Names of positions people held within an organization, ex. President, Chief Bottle Wsher, etc.
+role_types|organizational|Used to group Roles Titles for ease of searching.
 states|places|The largest continuous unit of local administration.  This could be a country, province, territory, or a state in the American Union.  States can be grouped into Empires.
 users|footnotes|All the registered users in the database.  This table can be expanded to support many authentication strategies.
 validations|footnotes|Validations is a table unlike any other in the database; it does not directly link to any of the records in the database.  Instead, it records the type of validatable entity (model name) and that entity's unique identifier.  This way, the validations table can "link" to as many (or as few) tables in the database as you require.  The validations also table records the user who entered the data, and the source from which the data is validated.  The "supports" field will record whether a given citation supports on contradicts the data in question.

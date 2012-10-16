@@ -13,10 +13,78 @@
 
 */
 
-//This method will parse the schema.rb file of a Rails 2.x app.
-//It automatically adds a primary key named "id" to every Entity
-//It also assumes you are using SQL statements to create foreign key constraints
-//If this does not match your schema, then make the appropriate adjustments
+/*****
+This method will parse output of a Django manage.py sql command
+For documentation on using this command see:
+ https://docs.djangoproject.com/en/dev/ref/django-admin/#sql-appname-appname
+You can list all the apps you want displayed and then pipe them to a file
+For example >>python manage.py sql places people organizations > schema.sql
+IMPORTANT NOTE: make sure you order your applications by dependency.
+If you try to parse a SQL table with a Foreign Key before you have parsed the
+table which that key references, the parser will create a dummy table and you 
+will end up with duplicates!  You have been warned.
+******/
+void parseDjangoSql(String[] lines) {
+
+  
+  for (int i = 0; i < lines.length; i++) {  
+    //get names of all Entities in the schema
+    //group(1) is the name of the Entity
+    Pattern p = Pattern.compile("CREATE\\sTABLE\\s\\`(\\w+)\\`");
+    Matcher m = p.matcher(lines[i]);
+    
+    if (m.lookingAt( )) {
+      //finds (and creates) a new Entity
+      Entity en = createEntity(m.group(1));
+      
+      //finds (and creates) the Entity's Attributes, and adds them to the Entity
+      for(int j = i+1; j < lines.length; j++) {
+        // stop if the line reads "end"
+        Pattern end = Pattern.compile(";");
+        Matcher e = end.matcher(lines[j]);
+        if (!e.lookingAt()) {
+          //get Attribute names and types
+          //group(1) = name, group(2) = datatype
+          Pattern attr = Pattern.compile("\\s+\\`(\\w+)\\`\\s+(\\w+)");
+          Matcher a = attr.matcher(lines[j]);
+          //test if attribute is primary key
+          Pattern priKey = Pattern.compile("PRIMARY");
+          Matcher pk = priKey.matcher(lines[j]);
+          if(a.lookingAt() && pk.find()) {
+            Attribute at = createAttribute("primary key", a.group(1));
+            en.addAttribute(at);
+            at.primary_key = true;
+          }
+          else if(a.lookingAt( ) && !pk.find()) {
+            Attribute at = createAttribute(a.group(2), a.group(1));
+            en.addAttribute(at);
+          }
+        } else break;
+      }
+    }
+    
+   //get all relationships in the schema
+   //group(1) = entityFrom, group(3) = foreign key, group(4) = entityTo
+   Pattern q = Pattern.compile("ALTER\\sTABLE\\s`(\\w+)`(.*)FOREIGN\\sKEY\\s\\(`(\\w+)`\\)\\sREFERENCES\\s`(\\w+)`");
+   Matcher n = q.matcher(lines[i]);
+    
+    if (n.lookingAt( )) {
+      Entity en = findEntity(n.group(1));
+      en.getForeignKey(n.group(3));
+      findEntity(n.group(4));
+      createRelationship(n.group(1), n.group(4));
+    }
+  }
+}
+
+/****
+This method will parse the schema.rb file of a Rails 2.x app.
+It automatically adds a primary key named "id" to every Entity
+It also assumes you are using SQL statements to create foreign key constraints
+If this does not match your schema, then make the appropriate adjustments
+If you do use this schema, be sure to change the name of the parsed file at
+the beginning of the DAVILA.pde file from schema.sql to schema.rb.
+****/
 void parseRails2fkcSchema(String[] lines) {
 
   
