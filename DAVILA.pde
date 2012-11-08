@@ -24,7 +24,11 @@
  *See README.TXT for more information.
  */
 
-/*These variables are necessary for Processing.js to work with toxiclibs.js 
+/*
+  *These variables are necessary for Processing.js to work with toxiclibs.js,
+  *but the Processing IDE will choke on them.
+  *Only uncomment the following lines in the file you will put on your website.
+
 var  VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
      VerletParticle2D = toxi.physics2d.VerletParticle2D,
      VerletSpring2D = toxi.physics2d.VerletSpring2D,
@@ -32,9 +36,11 @@ var  VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
      Vec2D = toxi.geom.Vec2D,
      Rect = toxi.geom.Rect; 
 */
+
 //Import relevant portions of the toxiclibs physics library
 import toxi.geom.*;
 import toxi.physics2d.*;
+import toxi.physics2d.behaviors.*;
 
 //Import the pdf rendering library for Processing
 import processing.pdf.*;
@@ -69,7 +75,7 @@ void setup( ) {
 
   //choose your schema file
   //If you called it schema.sql and placed it in the data folder there is nothing to change
-  schema = loadStrings("data/schema.rb");
+  schema = loadStrings("data/schema.sql");
   //chose your customization file 
   //If you called it customize.csv and placed it in the data folder there is nothing to change
   custom = loadStrings("data/customize.csv");
@@ -79,9 +85,8 @@ void setup( ) {
 
   //Initialize the  physics
   physics = new VerletPhysics2D( );
-  physics.setGravity(new Vec2D(0, 0.5));
-  //The line below is the new way to set gravity on a sketch
-  //physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));
+  physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));
+  //physics.setGravity(new Vec2D(0, 0.5)); //this line is the old way of setting gravity, used prior to toxiclibs 0020
 
   //This is the center of the world
   Vec2D center = new Vec2D(width/2, height/2);
@@ -92,7 +97,7 @@ void setup( ) {
   physics.setWorldBounds(Rect.fromCenterExtent(center, extent));
 
   //code located in Parser.pde
-  parseRails2fkcSchema(schema);
+  parseDjangoSql(schema);
 }
 
 //This method actually draws the sketch

@@ -29,7 +29,7 @@ Topics covered:
 System Requirements
 
 Processing 0182 (released 3//29/2010) or later
-toxiclibs complete library package 0016 (or later)
+toxiclibs complete library package 0020 (or later)
 
 To download the Processing language and the Processing Development Environment (a simple IDE), visit:
 http://processing.org/download
@@ -37,7 +37,7 @@ http://processing.org/download
 To download toxiclibs visit:
 http://hg.postspectacular.com/toxiclibs/downloads
 
-Download the toxiclibs-complete-0016.zip (or later version) package and add it your Processing Library 
+Download the toxiclibs-complete-0020.zip (or later version) package and add it your Processing Library 
 (see http://processing.org/reference/libraries/ for instructions).
 
 To learn more about this excellent library visit:
