@@ -24,6 +24,14 @@
  *See README.TXT for more information.
  */
 
+/*These variables are necessary for Processing.js to work with toxiclibs.js 
+var  VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
+     VerletParticle2D = toxi.physics2d.VerletParticle2D,
+     VerletSpring2D = toxi.physics2d.VerletSpring2D,
+     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
+     Vec2D = toxi.geom.Vec2D,
+     Rect = toxi.geom.Rect; 
+*/
 //Import relevant portions of the toxiclibs physics library
 import toxi.geom.*;
 import toxi.physics2d.*;
@@ -61,10 +69,10 @@ void setup( ) {
 
   //choose your schema file
   //If you called it schema.sql and placed it in the data folder there is nothing to change
-  schema = loadStrings("schema.sql");
+  schema = loadStrings("data/schema.rb");
   //chose your customization file 
   //If you called it customize.csv and placed it in the data folder there is nothing to change
-  custom = loadStrings("customize.csv");
+  custom = loadStrings("data/customize.csv");
 
   entities = new ArrayList();
   relationships = new ArrayList();
@@ -72,6 +80,8 @@ void setup( ) {
   //Initialize the  physics
   physics = new VerletPhysics2D( );
   physics.setGravity(new Vec2D(0, 0.5));
+  //The line below is the new way to set gravity on a sketch
+  //physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));
 
   //This is the center of the world
   Vec2D center = new Vec2D(width/2, height/2);
@@ -82,7 +92,7 @@ void setup( ) {
   physics.setWorldBounds(Rect.fromCenterExtent(center, extent));
 
   //code located in Parser.pde
-  parseDjangoSql(schema);
+  parseRails2fkcSchema(schema);
 }
 
 //This method actually draws the sketch

@@ -1,5 +1,6 @@
 /**
  *This file contains the code used to parse the database schema.
+  
  *If you need to write your own parser, all it needs to find are
  
  * 1 - the name of every entity in the database
@@ -8,6 +9,12 @@
  
  *Replace the 4 regular expressions in to the code below, 
  *and you should be in business.
+ 
+ *Processing has helper functions for Java Regular Expressions.  The two commands you need are:
+   *match() -- http://processingjs.org/reference/match_/
+   *matchAll() -- http://processingjs.org/reference/matchAll_/
+   
+ *You still need to use Java Regex syntax, unfortunately.  Don't forget the extra '\'!
  
  *If you create a new parser, please share it.
 
@@ -29,54 +36,51 @@ table which that key references, the parser will create a dummy table and you
 will end up with duplicates!  You have been warned.
 ******/
 void parseDjangoSql(String[] lines) {
-
   
+   
   for (int i = 0; i < lines.length; i++) {  
     //get names of all Entities in the schema
-    //group(1) is the name of the Entity
-    Pattern p = Pattern.compile("CREATE\\sTABLE\\s\\`(\\w+)\\`");
-    Matcher m = p.matcher(lines[i]);
+    //m[0][1] is the name of the Entity
+    String[][] m = matchAll(lines[i], "CREATE\\sTABLE\\s\\`(\\w+)\\`");
     
-    if (m.lookingAt( )) {
+    if (m != null) {
       //finds (and creates) a new Entity
-      Entity en = createEntity(m.group(1));
+      Entity en = createEntity(m[0][1]);
       
       //finds (and creates) the Entity's Attributes, and adds them to the Entity
       for(int j = i+1; j < lines.length; j++) {
-        // stop if the line reads "end"
-        Pattern end = Pattern.compile(";");
-        Matcher e = end.matcher(lines[j]);
-        if (!e.lookingAt()) {
+        // stop if the line reads ";"
+        String[] end = match(lines[j], ";");
+        if (end == null) {
           //get Attribute names and types
-          //group(1) = name, group(2) = datatype
-          Pattern attr = Pattern.compile("\\s+\\`(\\w+)\\`\\s+(\\w+)");
-          Matcher a = attr.matcher(lines[j]);
+          //attr[0][1] = name, attr[0][2] = datatype
+          String[][] attr = matchAll(lines[j], "\\s+\\`(\\w+)\\`\\s+(\\w+)");
           //test if attribute is primary key
-          Pattern priKey = Pattern.compile("PRIMARY");
-          Matcher pk = priKey.matcher(lines[j]);
-          if(a.lookingAt() && pk.find()) {
-            Attribute at = createAttribute("primary key", a.group(1));
+          String[] priKey = match(lines[j], "PRIMARY");
+          if(attr != null && priKey != null) {
+            Attribute at = createAttribute("primary key", attr[0][1]);
             en.addAttribute(at);
             at.primary_key = true;
           }
-          else if(a.lookingAt( ) && !pk.find()) {
-            Attribute at = createAttribute(a.group(2), a.group(1));
+          else if(attr != null && priKey == null) {
+            Attribute at = createAttribute(attr[0][2], attr[0][1]);
             en.addAttribute(at);
           }
         } else break;
       }
     }
-    
+  }
+
+ for (int i = 0; i < lines.length; i++) {   
    //get all relationships in the schema
-   //group(1) = entityFrom, group(3) = foreign key, group(4) = entityTo
-   Pattern q = Pattern.compile("ALTER\\sTABLE\\s`(\\w+)`(.*)FOREIGN\\sKEY\\s\\(`(\\w+)`\\)\\sREFERENCES\\s`(\\w+)`");
-   Matcher n = q.matcher(lines[i]);
+   //fk[0][1] = entityTo, fk[0][3] = foreign key, fk[0][4] = entityFrom
+   String[][] fk = matchAll(lines[i], "ALTER\\sTABLE\\s`(\\w+)`(.*)FOREIGN\\sKEY\\s\\(`(\\w+)`\\)\\sREFERENCES\\s`(\\w+)`");
     
-    if (n.lookingAt( )) {
-      Entity en = findEntity(n.group(1));
-      en.getForeignKey(n.group(3));
-      findEntity(n.group(4));
-      createRelationship(n.group(1), n.group(4));
+    if (fk != null) {
+      Entity en = findEntity(fk[0][1]);
+      en.getForeignKey(fk[0][3]);
+      findEntity(fk[0][4]);
+      createRelationship(fk[0][4],fk[0][1]);
     }
   }
 }
@@ -94,13 +98,12 @@ void parseRails2fkcSchema(String[] lines) {
   
   for (int i = 0; i < lines.length; i++) {  
     //get names of all Entities in the schema
-    //group(1) is the name of the Entity
-    Pattern p = Pattern.compile("\\s+create_table\\s\"(\\w+)\"");
-    Matcher m = p.matcher(lines[i]);
+    //m[0][1] is the name of the Entity
+    String[][] m = matchAll(lines[i], "\\s+create_table\\s\"(\\w+)\"");
     
-    if (m.lookingAt( )) {
+    if (m != null) {
       //finds (and creates) a new Entity
-      Entity en = createEntity(m.group(1));
+      Entity en = createEntity(m[0][1]);
       
       //Creates the primary key "id" added by Rails to every Entity but not specified in the schema
       Attribute id = createAttribute("primary key", "id");
@@ -109,16 +112,14 @@ void parseRails2fkcSchema(String[] lines) {
       
       //finds (and creates) the Entity's Attributes, and adds them to the Entity
       for(int j = i+1; j < lines.length; j++) {
-        // stop if the line reads "end"
-        Pattern end = Pattern.compile("\\s+end");
-        Matcher e = end.matcher(lines[j]);
-        if (!e.lookingAt()) {
+       // stop if the line reads "end"
+       String[] end = match(lines[j], "\\s+end");
+        if (end == null) {
           //get Attribute names and types
-          //group(1) = datatype, group(2) = name
-          Pattern attr = Pattern.compile("\\s+t.(\\w+)\\s+\"(\\w+)\"");
-          Matcher a = attr.matcher(lines[j]);
-          if(a.lookingAt( )) {
-            Attribute at = createAttribute(a.group(1), a.group(2));
+          //attr[0][1] = name, attr[0][2] = datatype
+          String[][] attr = matchAll(lines[j], "\\s+t.(\\w+)\\s+\"(\\w+)\"");
+          if(attr != null) {
+            Attribute at = createAttribute(attr[0][1], attr[0][2]);
             en.addAttribute(at);
           }
         } else break;
@@ -127,15 +128,14 @@ void parseRails2fkcSchema(String[] lines) {
     
    //get all relationships in the schema, including the foreign keys
    //this parses a SQL 92 foreign key constraint
-   //group(1) = entityTo, group(2) = foreign key, group(3) = entityFrom
-   Pattern q = Pattern.compile("\\s+add_foreign_key\\s\"(\\w+)\",\\s\\[\"(\\w+)\"\\],\\s\"(\\w+)\"");
-   Matcher n = q.matcher(lines[i]);
+   //fk[0][1] = entityTo, fk[0][2] = foreign key, fk[0][3] = entityFrom
+   String[][] fk = matchAll(lines[i], "\\s+add_foreign_key\\s\"(\\w+)\",\\s\\[\"(\\w+)\"\\],\\s\"(\\w+)\"");
     
-    if (n.lookingAt( )) {
-      Entity en = findEntity(n.group(1));
-      en.getForeignKey(n.group(2));
-      findEntity(n.group(3));
-      createRelationship(n.group(3), n.group(1));
+    if (fk != null) {
+      Entity en = findEntity(fk[0][1]);
+      en.getForeignKey(fk[0][2]);
+      findEntity(fk[0][3]);
+      createRelationship(fk[0][3], fk[0][1]);
     }
   }
 }

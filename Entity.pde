@@ -17,7 +17,7 @@
 */
 
 
-class Entity extends VerletParticle2D {
+class Entity extends toxi.physics2d.VerletParticle2D {
   
   String name;             //parsed from schema
   ArrayList attributes;    //parsed from schema
