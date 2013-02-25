@@ -9,7 +9,7 @@ Relationships are created using the createRelationship method found in the main 
 */
 
 
-class Relationship extends VerletSpring2D {
+class Relationship extends toxi.physics2d.VerletSpring2D {
   Entity entityFrom;
   Entity entityTo;
   
@@ -28,3 +28,10 @@ class Relationship extends VerletSpring2D {
   }
   
 }
+
+/*These next 2 lines are needed for the javascript application, but the Processing IDE will choke on them.
+Only uncomment in the file you put on your website
+
+Relationship.prototype = new toxi.physics2d.VerletSpring2D();
+Relationship.prototype.constructor = Relationship; 
+*/

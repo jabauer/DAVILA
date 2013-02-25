@@ -5,7 +5,7 @@
  */
 
 /* 
- * Copyright (c) 2010 Jean Bauer 
+ * Copyright (c) 2012 Jean Bauer 
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -25,13 +25,14 @@
  */
 
 /*
-  *These variables are necessary for Processing.js to work with toxiclibs.js,
-  *but the Processing IDE will choke on them.
-  *Only uncomment the following lines in the file you will put on your website.
+  These variables are necessary for Processing.js to work with toxiclibs.js,
+    but the Processing IDE will choke on them.
+  Only uncomment the following lines in the file you will put on your website.
 
 var  VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
      VerletParticle2D = toxi.physics2d.VerletParticle2D,
      VerletSpring2D = toxi.physics2d.VerletSpring2D,
+     VerletMinDistanceSpring2D = toxi.physics2d.VerletMinDistanceSpring2D,
      GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
      Vec2D = toxi.geom.Vec2D,
      Rect = toxi.geom.Rect; 
@@ -39,8 +40,11 @@ var  VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
 
 //Import relevant portions of the toxiclibs physics library
 import toxi.geom.*;
-import toxi.physics2d.*;
+import toxi.math.*;
+
+import toxi.physics2d.constraints.*;
 import toxi.physics2d.behaviors.*;
+import toxi.physics2d.*;
 
 //Import the pdf rendering library for Processing
 import processing.pdf.*;
@@ -67,7 +71,7 @@ boolean hover; // true if the mouse is hovering over the attribution link (see i
 PFont regular, bold; 
 
 void setup( ) {  
-  size(1000, 700);
+  size(1200, 900);
   smooth();
   frameRate(30);
   regular = createFont("Vera.ttf", 12);
