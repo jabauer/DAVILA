@@ -83,6 +83,9 @@ void setup( ) {
   //chose your customization file 
   //If you called it customize.csv and placed it in the data folder there is nothing to change
   custom = loadStrings("data/customize.csv");
+  //If you don't have a customization file yet, you can use this one instead
+  //custom = loadStrings("data/testBlank.csv");
+  
 
   entities = new ArrayList();
   relationships = new ArrayList();

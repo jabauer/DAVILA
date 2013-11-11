@@ -1,4 +1,4 @@
-Release Notes: DAVILA 0.2
+Release Notes: DAVILA 0.3
 
 About DAVILA
 
@@ -28,7 +28,7 @@ Topics covered:
 ********************
 System Requirements
 
-Processing 0182 (released 3//29/2010) or later
+Processing 0182 (released 3//29/2010) to Processing 1.5.1, not yet tested with Processing 2.x
 toxiclibs complete library package 0020 (or later)
 
 To download the Processing language and the Processing Development Environment (a simple IDE), visit:
@@ -70,7 +70,7 @@ Pressing the SPACE KEY (will not work if running as an applet)
 ********************
 Parsing your schema with DAVILA
 
-DAVILA is designed to load and parse the schema file for your database.  Version 0.2 is released with 2 parsers (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).  
+DAVILA is designed to load and parse the schema file for your database.  Version 0.3 is released with 2 parsers (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).  
 
 The default parser (named parseDjangoSql) can extract the necessary information from a SQL file created by the Django command line "manage.py sql" command.  See inline comments for more information.  The other parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.  
 
@@ -99,7 +99,7 @@ The CSV File has been heavily annotated for use as a template.  You can either r
 	* Replace the "customize.csv" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
 	* you can also use a URL to pull the csv file from a server, make sure you include the full path "http://yourcustomizationfile.csv"
 
-NOTE: You need to have a line for every table in your schema.  If you do not, the program will throw a "Java Null Pointer" error at you and reference the colorCode function in the Entity.pde file.
+NOTE: Great news! DAVILA no longer requires a complete customization file to run.  If you don't have a customization file ready to go, then just use the included data/testBlank.csv file.  There's alreay a line for it in DAVILA.pde, uncomment it (and comment out the line above it) and you're ready to go.  Your schema will parse and be displayed a force directed graph consisting of expandable slate grey boxes for each of your entities.  If you want to add project metadata, color coding, and modular awareness then start writing a customization file.  Otherwise, just export your graphs and be done.  Also, if you miss (or mistype) an entity in your customization file, DAVILA will still run, that entity will just display as slate grey.  If it was supposed to be the central entity of a module, it will not expand or collapse the module until you correct the customization file.
 
 ********************
 Common reasons to alter the code
@@ -132,7 +132,7 @@ Known Issues/Common Error Messages
 	at processing.core.PApplet.handleDraw(PApplet.java:1608)
 	at processing.core.PApplet.run(PApplet.java:1530)
 	at java.lang.Thread.run(Thread.java:680)"
-You get this error when your customization file does not list all the tables in your schema.  Check your schema to see if you have a Foreign Key reference to a table that you haven't listed.
+You get this error when your customization file does not list all the tables in your schema.  Check your schema to see if you have a Foreign Key reference to a table that you haven't listed.  This error should have been fixed in DAVILA 0.3
 
 * 'Dummy' duplicate entities in the resulting sketch.  Your schema needs to load tables in order of inheritance.  If it doesn't, the schema parser will create a dummy Entity (correct name, annotation, and module color but no associated attributes) as a place holder and WILL NOT DELETE IT when it creates the real entity farther down the file.  See inline comments on the parseDjangoSql() method in the Parser.pde file for more information.  NOTE: This should not be a problem with Rails schemas as they list all their Foreign Key constraints at the bottom.  
 
@@ -144,6 +144,6 @@ You get this error when your customization file does not list all the tables in 
 
 * Self joins represented with only 1 arrow -- toxiclibs only allows one spring to connect two entities, so that means one arrow between a self-join and its related table.  Any and all suggestions welcome.
 
-* Error message while compiling the code "It looks like you're mixing "active" and "static" modes" -- this was a bug in Processing 0182.  If you upgrade to the most recent version it should go away.  If that is not possible, keep reading.  Basically all errors in this latest version route you to the setup() method in the main sketch (here DAVILA.pde) and display this message, regardless of the actual problem (typo, missed semicolon at end of line, wrong number of parentheses, etc.).  Best solution at the moment: look closely at the code you just changed and figure out what went wrong.
+* Error message while compiling the code "It looks like you're mixing "active" and "static" modes" -- this was a bug in Processing 0182.  If you upgrade to the most recent version it should go away.  If that is not possible, keep reading.  Basically all errors in this version route you to the setup() method in the main sketch (here DAVILA.pde) and display this message, regardless of the actual problem (typo, missed semicolon at end of line, wrong number of parentheses, etc.).  Best solution at the moment: look closely at the code you just changed and figure out what went wrong.
 
 If your problem is not addressed above, first check out the documentation and forums on http://processing.org to make sure this is not a Processing (or toxiclibs) issue rather than a DAVILA issue.

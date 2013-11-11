@@ -22,8 +22,9 @@ class Entity extends toxi.physics2d.VerletParticle2D {
   String name;             //parsed from schema
   ArrayList attributes;    //parsed from schema
   String module;           //parsed from CSV file
-  String moduleColor;      //parsed from CSV file
-  String annotation;       //parsed from CSV file
+  String moduleColor;      //parsed from CSV file, if no color specified, defaults to a slate grey see colorCode below
+  String annotation = "This entity is not listed in the customization file."; 
+                            //this is the default annotation, value should be parsed from CSV file
   boolean central;         //parsed from CSV file
   float w, h;              //width and height of rectangle used to display information
   boolean expanded;        //determines how much information about an Entity is displayed
@@ -58,15 +59,20 @@ class Entity extends toxi.physics2d.VerletParticle2D {
   //also determines if the Entity is the central entity of its module
   void colorCode (String[] lines) {
     central = false;
-    for (int i= 0; i < lines.length; i++) {
-      String[] pieces = split(lines[i], "|");
-      if (pieces[0].equals("module") && module.equals(pieces[1])) {
-        moduleColor = pieces[2];
-        moduleColor = "FF" + moduleColor.substring(1);
-        if (pieces[3] != null & name.equals(pieces[3])) {
-          central = true;
+    try {
+      for (int i= 0; i < lines.length; i++) {
+        String[] pieces = split(lines[i], "|");
+        if (pieces[0].equals("module") && module.equals(pieces[1])) {
+          moduleColor = pieces[2];
+          moduleColor = "FF" + moduleColor.substring(1);
+          if (pieces[3] != null & name.equals(pieces[3])) {
+            central = true;
+          }
         }
       }
+    //If this particular entity is not in the customization file, set color to a nice, friendly slate grey.
+    } catch (NullPointerException e) { 
+      moduleColor = "FF708090";
     }
   } 
   
