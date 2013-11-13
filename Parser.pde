@@ -14,11 +14,92 @@
    *match() -- http://processingjs.org/reference/match_/
    *matchAll() -- http://processingjs.org/reference/matchAll_/
    
- *You still need to use Java Regex syntax, unfortunately.  Don't forget the extra '\'!
+ *You still need to use Java Regex syntax, unfortunately.  
+ These regexes are all string literals so don't forget the extra '\'!
  
  *If you create a new parser, please share it.
 
 */
+
+/*****
+This method will parse output of a mysqldump command
+
+You probably want to use the --no-data flag to keep the file small,
+but the parser will ignore any lines of data, so it won't choke if you have a full dump.
+
+For documentation on using this command see:
+http://dev.mysql.com/doc/refman/5.1/en/mysqldump.html
+
+
+It has to cycle through the file twice.
+Once to get all the Entities, their attributes, and primary key(s).
+Another time to get the foreign keys and set up the relationships.
+
+This parser was designed for INNODB schemas.
+It will work on a MyISAM database, but it will not create the relationships, 
+since MyISAM does not make them explicit in the schema.
+******/
+void parseMySQLDump(String[] lines) {
+  
+   
+  for (int i = 0; i < lines.length; i++) {  
+    //get names of all Entities in the schema
+    //m[0][1] is the name of the Entity
+    String[][] m = matchAll(lines[i], "CREATE\\sTABLE\\s`(\\w+)`");
+    
+    if (m != null) {
+      //finds (and creates) a new Entity
+      Entity en = createEntity(m[0][1]);
+      
+      //finds (and creates) the Entity's Attributes, and adds them to the Entity
+      for(int j = i+1; j < lines.length; j++) {
+        // stop if the line reads ";"
+        String[] end = match(lines[j], ";");
+        if (end == null) {
+          //get Attribute names and types
+          //attr[0][1] = name, attr[0][2] = datatype
+          String[][] attr = matchAll(lines[j], "^\\s*`(\\w+)`\\s+(\\w+)");
+          if(attr != null) {
+            Attribute at = createAttribute(attr[0][2], attr[0][1]);
+            en.addAttribute(at);
+          }
+          //find primary key(s)
+          String[][] p = matchAll(lines[j], "PRIMARY\\sKEY\\s\\(`(\\w+)`\\)");
+          if (p != null) {
+            en.getPrimaryKey(p[0][1]);
+          }
+        } else break;
+      }
+    }
+  }
+
+ for (int i = 0; i < lines.length; i++) {   
+   //get all relationships in the schema
+   //First get the name of the Entity from the first line
+   //m[0][1] is the name of the Entity
+   String[][] m = matchAll(lines[i], "CREATE\\sTABLE\\s`(\\w+)`");
+   if (m != null) {
+     Entity en = findEntity(m[0][1]);
+     //finds references foreign keys and creates relationships for that specific entity
+     for(int j = i+1; j < lines.length; j++) {
+      // stop if the line reads ";"
+      String[] end = match(lines[j], ";");
+      if (end == null) {
+        //en.name = entityTo fk[0][1] = foreign key, fk[0][] = entityFrom
+        String[][] fk = matchAll(lines[j], "FOREIGN\\sKEY\\s\\(`(\\w+)`\\)\\sREFERENCES\\s`(\\w+)`");
+        if (fk != null) {   
+          en.getForeignKey(fk[0][1]);
+          findEntity(fk[0][2]);
+          createRelationship(fk[0][2],en.name);
+        }
+      } else break;   
+    }
+  }
+ }
+}
+   
+   
+
 
 /*****
 This method will parse output of a Django manage.py sql command
@@ -37,7 +118,7 @@ void parseDjangoSql(String[] lines) {
   for (int i = 0; i < lines.length; i++) {  
     //get names of all Entities in the schema
     //m[0][1] is the name of the Entity
-    String[][] m = matchAll(lines[i], "CREATE\\sTABLE\\s\\`(\\w+)\\`");
+    String[][] m = matchAll(lines[i], "CREATE\\sTABLE\\s`(\\w+)`");
     
     if (m != null) {
       //finds (and creates) a new Entity
@@ -50,7 +131,7 @@ void parseDjangoSql(String[] lines) {
         if (end == null) {
           //get Attribute names and types
           //attr[0][1] = name, attr[0][2] = datatype
-          String[][] attr = matchAll(lines[j], "\\s+\\`(\\w+)\\`\\s+(\\w+)");
+          String[][] attr = matchAll(lines[j], "\\s+`(\\w+)`\\s+(\\w+)");
           //test if attribute is primary key
           String[] priKey = match(lines[j], "PRIMARY");
           if(attr != null && priKey != null) {
@@ -73,10 +154,11 @@ void parseDjangoSql(String[] lines) {
    String[][] fk = matchAll(lines[i], "ALTER\\sTABLE\\s`(\\w+)`(.*)FOREIGN\\sKEY\\s\\(`(\\w+)`\\)\\sREFERENCES\\s`(\\w+)`");
     
     if (fk != null) {
+      
       Entity en = findEntity(fk[0][1]);
       en.getForeignKey(fk[0][3]);
       findEntity(fk[0][4]);
-      createRelationship(fk[0][4],fk[0][1]);
+      createRelationship(fk[0][4],en.name);
     }
   }
 }
@@ -131,7 +213,7 @@ void parseRails2fkcSchema(String[] lines) {
       Entity en = findEntity(fk[0][1]);
       en.getForeignKey(fk[0][2]);
       findEntity(fk[0][3]);
-      createRelationship(fk[0][3], fk[0][1]);
+      createRelationship(fk[0][3], en.name);
     }
   }
 }

@@ -70,9 +70,11 @@ Pressing the SPACE KEY (will not work if running as an applet)
 ********************
 Parsing your schema with DAVILA
 
-DAVILA is designed to load and parse the schema file for your database.  Version 0.3 is released with 2 parsers (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).  
+DAVILA is designed to load and parse the schema file for your database.  Version 0.4 is released with 3 parsers (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).  
 
-The default parser (named parseDjangoSql) can extract the necessary information from a SQL file created by the Django command line "manage.py sql" command.  See inline comments for more information.  The other parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.  
+The default parser (named parseMySQLDump) can extract the necessary information from a SQL file created by the mysqldump command.  It can parse both INNODB and MyISAM dabatases, but MyISAM doesn't enforce relationships on the schema level, so they won't appear in your visualization.
+
+The second parser  (named parseDjangoSql) can extract the necessary information from a SQL file created by the Django command line "manage.py sql" command.  See inline comments for more information.  The other parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.  
 
 Overtime I hope to increase the parser library.  However, since SQL is a non-orthogonal language (and therefore every developer seems to have her/his favorite way of writing SQL Schemas), I will be relying on the user base to help improve the parser library.
 
@@ -80,10 +82,10 @@ The Parser.pde file is heavily commented and should be relatively easy to modify
 
 Processing makes use of the Java regex library.  
 
-If your schema is called something other than schema.sql (or is located outside of the data folder) you will need to alter the code splits the file into an Array.
+If your schema is called something other than schemaDump.sql (or is located outside of the data folder) you will need to alter the code splits the file into an Array.
 	* Inside the setup() method there is line that reads
-		schema = loadStrings("schema.sql");
-	* Replace the "schema.sql" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
+		schema = loadStrings("schemaDump.sql");
+	* Replace the "schemaDump.sql" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
 	* you can also use a URL to pull the schema from a server -- just remember that you need to update the CSV file every time you add a new Entity to the database, make sure you include the full path "http://yourschemafile.sql"
 
 ********************
@@ -113,7 +115,9 @@ DAVILA has been designed for non Processing users as well as those familiar with
 
 * Changing the color of the text or arrows -- this is handled by a series of fill() methods throughout the code.  See http://processing.org/reference/fill_.html for more information about this method.
 
-* Writing a new parser -- place the code for your new method in the Parser.pde file and call it in setup() in DAVILA.pde.  Comment out or delete the current method call parseDjangoSqll() a in the last line of setup().
+* Using a different parser -- comment out or delete the current method call parseMySQLDump(), found in DAVILA.pde [it's the last line of the method setup()]
+
+* Writing a new parser -- place the code for your new method in the Parser.pde file and call it in setup() in DAVILA.pde.  Comment out or delete the current method call parseMySQLDump() in the last line of setup().
 
 ********************
 Known Issues/Common Error Messages

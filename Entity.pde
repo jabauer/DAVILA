@@ -93,6 +93,18 @@ class Entity extends toxi.physics2d.VerletParticle2D {
     }
   }
   
+  //Runs through the arrayList of Attributes and makes the appropriate Attribute a primary key
+  //sets boolean value and changes string type
+  void getPrimaryKey(String primarykey) {
+    for (int i = 0; i < attributes.size(); i++) {
+      Attribute a = (Attribute) attributes.get(i);
+      if (a.name.equals(primarykey)) {
+        a.primary_key = true;
+        a.type = "primary key";
+      }
+    }
+  }
+  
   //displays and Entity as its name in a rectangle
   //the rectange is color coded based on the Entity's module
   void display() {

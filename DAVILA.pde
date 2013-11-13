@@ -5,7 +5,7 @@
  */
 
 /* 
- * Copyright (c) 2012 Jean Bauer 
+ * Copyright (c) 2013 Jean Bauer 
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
@@ -78,8 +78,8 @@ void setup( ) {
   bold = createFont("VeraBd.ttf", 12);
 
   //choose your schema file
-  //If you called it schema.sql and placed it in the data folder there is nothing to change
-  schema = loadStrings("data/schema.sql");
+  //If you called it schemaDump.sql and placed it in the data folder there is nothing to change
+  schema = loadStrings("data/schemaDump.sql");
   //chose your customization file 
   //If you called it customize.csv and placed it in the data folder there is nothing to change
   custom = loadStrings("data/customize.csv");
@@ -104,7 +104,7 @@ void setup( ) {
   physics.setWorldBounds(Rect.fromCenterExtent(center, extent));
 
   //code located in Parser.pde
-  parseDjangoSql(schema);
+  parseMySQLDump(schema);
 }
 
 //This method actually draws the sketch
