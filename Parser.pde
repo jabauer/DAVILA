@@ -63,10 +63,14 @@ void parseMySQLDump(String[] lines) {
             Attribute at = createAttribute(attr[0][2], attr[0][1]);
             en.addAttribute(at);
           }
-          //find primary key(s)
-          String[][] p = matchAll(lines[j], "PRIMARY\\sKEY\\s\\(`(\\w+)`\\)");
+          //find primary key(s) -- if you have a composite key, it will find all the components
+          String[][] p = matchAll(lines[j], "PRIMARY\\sKEY\\s\\(`(.*)`\\)");
           if (p != null) {
-            en.getPrimaryKey(p[0][1]);
+            String priK = p[0][1];
+            String[] list_keys = split(priK, "`,`");
+            for (int k = 0; k < list_keys.length; k++) {
+              en.getPrimaryKey(list_keys[k]);
+            }
           }
         } else break;
       }
