@@ -38,6 +38,9 @@ var  VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
      Rect = toxi.geom.Rect; 
 */
 
+//Import Java Iterator, no longer included in Proccessing 2.x
+import java.util.Iterator;
+
 //Import relevant portions of the toxiclibs physics library
 import toxi.geom.*;
 import toxi.math.*;
