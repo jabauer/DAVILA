@@ -9,7 +9,7 @@ DAVILA is named after John Adams' 1790 treatise on political philosophy, "Discou
 DAVILA was built with funds and support from NINES (http://nines.org)
 - In particular Dana Wheeles and Laura Mandell for their encouragement and great design suggestions
 
-Thanks also go to 
+Thanks also go to
 - Ben Fry and Casey Reas for creating Processing and then sharing it with the rest of us
 - Karsten Schmidt (a.k.a. toxi) for toxiclibs and lighting fast responses to my questions
 - Daniel Shiffman for great toxiclibs tutorials
@@ -29,29 +29,33 @@ Topics covered:
 
 ## System Requirements
 
-Processing 0182 (released 3//29/2010) to Processing 1.5.1, not yet tested with Processing 2.x
-toxiclibs complete library package 0020 (or later)
+* Processing version 0182 (released 3/29/2010) to Processing 1.5.1, not yet tested with Processing 2.x
 
-To download the Processing language and the Processing Development Environment (a simple IDE), visit:
-http://processing.org/download
+  To download the Processing language and the Processing Development Environment (a simple IDE), visit:
+  http://processing.org/download
 
-To download toxiclibs visit:
-https://bitbucket.org/postspectacular/toxiclibs/downloads/
+* [toxiclibs](http://toxiclibs.org) complete library package 0020 (or later)
 
-Download the toxiclibs-complete-0020.zip (or later version) package and add it your Processing Library 
-(see http://processing.org/reference/libraries/ for instructions).
+  To download toxiclibs visit:
+  https://bitbucket.org/postspectacular/toxiclibs/downloads/
 
-To learn more about this excellent library visit:
-http://toxiclibs.org
+  Download the toxiclibs-complete-0020.zip (or later version) package and add it your Processing Library
+  (see http://processing.org/reference/libraries/ and https://github.com/processing/processing/wiki/How-to-Install-a-Contributed-Library for instructions).
+
 
 ********************
+
 ## Interacting with DAVILA
 
 Before you annotate your own schema, play around with the example included in the download.
 
-You can either run the program from the Processing Development Environment (PDE), or open the index.html file located in the example_applet folder to run it as an applet in a web browser.
+You can either run the program from the Processing Development Environment (PDE), or open the index.html file located in the example_applet folder to run it as an applet in a web browser.  You can luanch DAVILA from
+the command line by starting processing the path to DAVILA.pde:
 
-To learn more about PDE see http://processing.org/reference/environment/
+  `/path/to/processing-1.5.1/processing /path/to/DAVILA/DAVILA.pde`
+
+To learn more about PDE see http://processing.org/reference/environment/ or
+take a look at the [getting started](https://processing.org/tutorials/gettingstarted/) tutorial.
 
 You can also run Processing code in Eclipse, see here for more information
 http://processing.org/learning/eclipse/
@@ -63,7 +67,7 @@ Using the mouse:
 - LEFT CLICK an entity to lock it into place
 - RIGHT CLICK an entity to unlock it (it will place itself according to the spring algorithm)
 - DOUBLE LEFT CLICK an entity to toggle between displaying only the name of the Entity and also displaying the annotation text and list of attributes.  If it is the central entity of its module the color coded band around the expanded display will be 2.5x thicker.
-- DOUBLE RIGHT CLICK on a central entity to toggle between hiding and displaying the other entities in that module -- this is particularly useful when you want to focus on one aspect of a complicated database.  
+- DOUBLE RIGHT CLICK on a central entity to toggle between hiding and displaying the other entities in that module -- this is particularly useful when you want to focus on one aspect of a complicated database.
 
 Pressing the SPACE KEY (will not work if running as an applet)
 - will save a snapshot of the diagram as a vector-scaled PDF file in the sketch folder (SKETCH --> VIEW SKETCH FOLDER) as diagramTIMESTAMP.pdf.
@@ -71,34 +75,34 @@ Pressing the SPACE KEY (will not work if running as an applet)
 ********************
 ## Parsing your schema with DAVILA
 
-DAVILA is designed to load and parse the schema file for your database.  Version 0.4 is released with 3 parsers (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).  
+DAVILA is designed to load and parse the schema file for your database.  Version 0.4 is released with 3 parsers (found in the file Parser.pde and called as the last line of the setup() method in DAVILA.pde).
 
 The default parser (named parseMySQLDump) can extract the necessary information from a SQL file created by the mysqldump command.  It can parse both INNODB and MyISAM dabatases, but MyISAM doesn't enforce relationships on the schema level, so they won't appear in your visualization.
 
-The second parser  (named parseDjangoSql) can extract the necessary information from a SQL file created by the Django command line "manage.py sql" command.  See inline comments for more information.  The other parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.  
+The second parser  (named parseDjangoSql) can extract the necessary information from a SQL file created by the Django command line "manage.py sql" command.  See inline comments for more information.  The other parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.
 
 Overtime I hope to increase the parser library.  However, since SQL is a non-orthogonal language (and therefore every developer seems to have her/his favorite way of writing SQL Schemas), I will be relying on the user base to help improve the parser library.
 
-The Parser.pde file is heavily commented and should be relatively easy to modify for a different SQL schema.  If you create a new parser, PLEASE contribute it back to the project and let me know how you want to be credited in the code comments and larger documentation.  
+The Parser.pde file is heavily commented and should be relatively easy to modify for a different SQL schema.  If you create a new parser, PLEASE contribute it back to the project and let me know how you want to be credited in the code comments and larger documentation.
 
-Processing makes use of the Java regex library.  
+Processing makes use of the Java regex library.
 
 If your schema is called something other than schemaDump.sql (or is located outside of the data folder) you will need to alter the code splits the file into an Array.
 - Inside the setup() method there is line that reads
-	`schema = loadStrings("schemaDump.sql");`
+    `schema = loadStrings("schemaDump.sql");`
 - Replace the "schemaDump.sql" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
 - you can also use a URL to pull the schema from a server -- just remember that you need to update the CSV file every time you add a new Entity to the database, make sure you include the full path "http://yourschemafile.sql"
 
 ********************
 ## Annotating your schema with DAVILA
 
-DAVILA makes it easy for database developers to create visually appealing and semantically rich interactive diagrams to document their programs.  Ideally, an instance of DAVILA should make the design and purpose of the database clear to non-technical users (or other members of the design team who are unfamiliar with database structure).  
+DAVILA makes it easy for database developers to create visually appealing and semantically rich interactive diagrams to document their programs.  Ideally, an instance of DAVILA should make the design and purpose of the database clear to non-technical users (or other members of the design team who are unfamiliar with database structure).
 
 Along with the database's schema, DAVILA loads a CSV file (using "|" as the delimiter rather than comma).  A sample schema and CSV file have been included with this installation.  They can be found in the data folder.
 
 The CSV File has been heavily annotated for use as a template.  You can either replace the relevant lines or make a copy.  If you name your CSV file customize.csv and leave it in the data folder you will not need to alter the program.  If you change the name and/or location of the CSV file you will need to alter the code splits the file into an Array.
 - Inside the setup() method there is line that reads
-	`custom = loadStrings("customize.csv");`
+   `custom = loadStrings("customize.csv");`
 - Replace the "customize.csv" with the name and location of the file (if your file is still in the sketch folder but not in the data folder you do not need a path) -- this is the only line of code you need to change
 - you can also use a URL to pull the csv file from a server, make sure you include the full path `"http://yourcustomizationfile.csv"`
 
@@ -107,12 +111,12 @@ NOTE: Great news! DAVILA no longer requires a complete customization file to run
 ********************
 ## Common reasons to alter the code
 
-DAVILA has been designed for non Processing users as well as those familiar with the language.  Everything you see in the example applet (or by running the code, unmodified) was parsed from the schema and the CSV file (except for the attribution text in the lower right corner).  However there are some standard customizations which cannot be handled through the CSV file.  
+DAVILA has been designed for non Processing users as well as those familiar with the language.  Everything you see in the example applet (or by running the code, unmodified) was parsed from the schema and the CSV file (except for the attribution text in the lower right corner).  However there are some standard customizations which cannot be handled through the CSV file.
 
-- Changing the size of the display window -- this is handled by the size(width, height) method (see http://processing.org/reference/size_.html for more information).  It is the first method called in setup(), found in DAVILA.pde  
+- Changing the size of the display window -- this is handled by the size(width, height) method (see http://processing.org/reference/size_.html for more information).  It is the first method called in setup(), found in DAVILA.pde
   -  NOTE: If you change the size and plan to export your sketch as an applet, check the applet to make sure that everything is visible in the window.  The applet export feature in Processing can generate weird results, and depending on the complexity of your schema, some entities may "fall off" the bottom or left side of the sketch.  Play with the applet size until you find something that works.
 
-- Changing the font -- DAVILA ships with the ttf files for two open source fonts, Bitstream Vera and Bitstream Vera Bold.  If you want to use another font, you must add the new ttf files to the data folder and change the createFont lines in setup().  If you plan to redistribute your modified version of DAVILA make sure you use fonts that can be redistributed with the code (or revert to the Vera fonts).  
+- Changing the font -- DAVILA ships with the ttf files for two open source fonts, Bitstream Vera and Bitstream Vera Bold.  If you want to use another font, you must add the new ttf files to the data folder and change the createFont lines in setup().  If you plan to redistribute your modified version of DAVILA make sure you use fonts that can be redistributed with the code (or revert to the Vera fonts).
 
 - Changing the color of the text or arrows -- this is handled by a series of fill() methods throughout the code.  See http://processing.org/reference/fill_.html for more information about this method.
 
@@ -127,7 +131,7 @@ DAVILA has been designed for non Processing users as well as those familiar with
 
 - Error message while running the code: "CGContextSetBaseCTM: invalid context 0x0" -- Ignore this error as well, it does not affect the code.  It is just a warning and seems to only happen for Mac users running Lion 10.7.4.  Apparently upgrading to Mountain Lion (10.8) fixes the problem . . . (Processing Forum thread https://forum.processing.org/topic/java-errors)
 
-- Error message while running the code 
+- Error message while running the code
 ```
 "Exception in thread "Animation Thread" java.lang.NullPointerException
 	at DAVILA$Entity.colorCode(DAVILA.java:438)
@@ -141,13 +145,13 @@ DAVILA has been designed for non Processing users as well as those familiar with
 ```
 You get this error when your customization file does not list all the tables in your schema.  Check your schema to see if you have a Foreign Key reference to a table that you haven't listed.  This error should have been fixed in DAVILA 0.3
 
-- 'Dummy' duplicate entities in the resulting sketch.  Your schema needs to load tables in order of inheritance.  If it doesn't, the schema parser will create a dummy Entity (correct name, annotation, and module color but no associated attributes) as a place holder and WILL NOT DELETE IT when it creates the real entity farther down the file.  See inline comments on the parseDjangoSql() method in the Parser.pde file for more information.  NOTE: This should not be a problem with Rails schemas as they list all their Foreign Key constraints at the bottom.  
+- 'Dummy' duplicate entities in the resulting sketch.  Your schema needs to load tables in order of inheritance.  If it doesn't, the schema parser will create a dummy Entity (correct name, annotation, and module color but no associated attributes) as a place holder and WILL NOT DELETE IT when it creates the real entity farther down the file.  See inline comments on the parseDjangoSql() method in the Parser.pde file for more information.  NOTE: This should not be a problem with Rails schemas as they list all their Foreign Key constraints at the bottom.
 
 - Bold text rendering as normal weight in PDF export -- this will happen if you are running a version of Processing earlier than 0182 or are not using ttf (or otf) files while creating your bolded font.
 
 - Arrows acting weirdly -- This is a function of the code used to connect the rectangles with arrows.  It turns out this is a non trivial problem and an interesting thread has developed on possible solutions (see http://processing.org/discourse/yabb2/YaBB.pl?num=1269916012/0).  Currently I am still using the first solution I developed (approximating the rectangle as an ellipse and making the Entity displays translucent so that the arrow heads still display -- see the draw() method in DAVILA.pde).  If you have "lost" an arrowhead when expanding an Entity, click and drag it around until it reappears.  If you have a better solution please let me know.
 
-- Overlapping Entities -- toxiclibs is an excellent physics library but it is not very good at collision avoidance.  Play with the String lengths in the createRelationship method in DAVILA.pde to get a better fit for your schema.  
+- Overlapping Entities -- toxiclibs is an excellent physics library but it is not very good at collision avoidance.  Play with the String lengths in the createRelationship method in DAVILA.pde to get a better fit for your schema.
 
 - Self joins represented with only 1 arrow -- toxiclibs only allows one spring to connect two entities, so that means one arrow between a self-join and its related table.  Any and all suggestions welcome.
 
