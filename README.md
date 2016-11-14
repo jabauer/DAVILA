@@ -49,7 +49,7 @@ Topics covered:
 
 Before you annotate your own schema, play around with the example included in the download.
 
-You can either run the program from the Processing Development Environment (PDE), or open the index.html file located in the example_applet folder to run it as an applet in a web browser.  You can luanch DAVILA from
+You can either run the program from the Processing Development Environment (PDE), or open the index.html file located in the example_applet folder to run it as an applet in a web browser.  You can launch DAVILA from
 the command line by starting processing the path to DAVILA.pde:
 
   `/path/to/processing-1.5.1/processing /path/to/DAVILA/DAVILA.pde`
