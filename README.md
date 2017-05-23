@@ -1,4 +1,4 @@
-Release Notes: DAVILA 0.3
+Release Notes: DAVILA 0.4
 
 # About DAVILA
 
@@ -29,7 +29,7 @@ Topics covered:
 
 ## System Requirements
 
-* Processing version 0182 (released 3/29/2010) to Processing 1.5.1, not yet tested with Processing 2.x
+* Processing version 0182 (released 3/29/2010) to Processing 3.x
 
   To download the Processing language and the Processing Development Environment (a simple IDE), visit:
   http://processing.org/download
@@ -40,7 +40,7 @@ Topics covered:
   https://bitbucket.org/postspectacular/toxiclibs/downloads/
 
   Download the toxiclibs-complete-0020.zip (or later version) package and add it your Processing Library
-  (see http://processing.org/reference/libraries/ and https://github.com/processing/processing/wiki/How-to-Install-a-Contributed-Library for instructions).
+  (see https://github.com/processing/processing/wiki/How-to-Install-a-Contributed-Library for instructions).
 
 
 ********************
@@ -49,16 +49,10 @@ Topics covered:
 
 Before you annotate your own schema, play around with the example included in the download.
 
-You can either run the program from the Processing Development Environment (PDE), or open the index.html file located in the example_applet folder to run it as an applet in a web browser.  You can launch DAVILA from
-the command line by starting processing the path to DAVILA.pde:
-
-  `/path/to/processing-1.5.1/processing /path/to/DAVILA/DAVILA.pde`
+You can run the program directly from the Processing Development Environment (PDE).
 
 To learn more about PDE see http://processing.org/reference/environment/ or
 take a look at the [getting started](https://processing.org/tutorials/gettingstarted/) tutorial.
-
-You can also run Processing code in Eclipse, see here for more information
-http://processing.org/learning/eclipse/
 
 Each entity appears in the window in a translucent, color-coded rectangle surrounding the entity's name with arrows showing its relationship to the other entities in the database.  Entities that are central to their module will display with bolded text. DAVILA sets the starting positions of each entity randomly, and then lets the toxiclibs spring algorithm place them in the window with minimal overlap. Your interaction options are as follows:
 
@@ -69,7 +63,7 @@ Using the mouse:
 - DOUBLE LEFT CLICK an entity to toggle between displaying only the name of the Entity and also displaying the annotation text and list of attributes.  If it is the central entity of its module the color coded band around the expanded display will be 2.5x thicker.
 - DOUBLE RIGHT CLICK on a central entity to toggle between hiding and displaying the other entities in that module -- this is particularly useful when you want to focus on one aspect of a complicated database.
 
-Pressing the SPACE KEY (will not work if running as an applet)
+Pressing the SPACE KEY
 - will save a snapshot of the diagram as a vector-scaled PDF file in the sketch folder (SKETCH --> VIEW SKETCH FOLDER) as diagramTIMESTAMP.pdf.
 
 ********************
@@ -79,7 +73,7 @@ DAVILA is designed to load and parse the schema file for your database.  Version
 
 The default parser (named parseMySQLDump) can extract the necessary information from a SQL file created by the mysqldump command.  It can parse both INNODB and MyISAM dabatases, but MyISAM doesn't enforce relationships on the schema level, so they won't appear in your visualization.
 
-The second parser  (named parseDjangoSql) can extract the necessary information from a SQL file created by the Django command line "manage.py sql" command.  See inline comments for more information.  The other parser (named parseRails2fkcSchema) can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.
+There are also two older parsers as examples.  parseDjangoSql can extract the necessary information from a SQL file created by the pre Django 1.7 "manage.py sql" command.  See inline comments for more information.  named parseRails2fkcSchema can extract the necessary information from a Rails 2.x schema that uses SQL92 inserts to create foreign key constraints.
 
 Overtime I hope to increase the parser library.  However, since SQL is a non-orthogonal language (and therefore every developer seems to have her/his favorite way of writing SQL Schemas), I will be relying on the user base to help improve the parser library.
 
